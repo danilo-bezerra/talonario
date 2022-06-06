@@ -1,10 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import { Container } from "./styles";
-
-import Multar from "../../components/Multar";
-import Perfil from '../../components/Perfil'
+import Multar from "../Multar";
+import Perfil from '../Perfil';
 
 const Tab = createBottomTabNavigator();
 

@@ -1,32 +1,52 @@
-import Multar from "../components/Multar";
+import React from "react";
+
+import Multar from "../pages/Multar";
+import Perfil from "../pages/Perfil";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Perfil from "../components/Perfil";
+import HistoricoMultas from "../pages/HistoricoMultas";
 
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function Routes() {
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === "Multar") {
-            iconName = focused ? "car-outline" : "car-outline";
-          } else if (route.name === "Perfil") {
-            iconName = focused ? "person-outline" : "person-outline";
-          }
-
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "gray",
-      })}
-    >
-      <Tab.Screen component={Multar} name="Multar" />
-      <Tab.Screen component={Perfil} name="Perfil" />
-    </Tab.Navigator>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Multar" component={Multar} />
+      <Drawer.Screen name="Perfil" component={Perfil} />
+      <Drawer.Screen name="HistoricoMultas" component={HistoricoMultas} options={
+        {
+          title: "Historico de Multas"
+        }
+      }/>
+    </Drawer.Navigator>
   );
 }
+
+// Menu component old navigation
+// export default function Routes() {
+//   return (
+//     <Tab.Navigator
+//       screenOptions={({ route }) => ({
+//         tabBarIcon: ({ focused, color, size }) => {
+//           let iconName;
+
+//           if (route.name === "Multar") {
+//             iconName = focused ? "car-outline" : "car-outline";
+//           } else if (route.name === "Perfil") {
+//             iconName = focused ? "person-outline" : "person-outline";
+//           }
+
+//           // You can return any component that you like here!
+//           return <Ionicons name={iconName} size={size} color={color} />;
+//         },
+//         tabBarActiveTintColor: "black",
+//         tabBarInactiveTintColor: "gray",
+//       })}
+//     >
+//       <Tab.Screen component={Multar} name="Multar" />
+//       <Tab.Screen component={Perfil} name="Perfil" />
+//     </Tab.Navigator>
+//   );
+// }

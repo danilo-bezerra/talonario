@@ -3,6 +3,7 @@ import { useState } from "react";
 import Login from "./src/pages/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "./src/pages/Home";
+import Routes from "./src/routes";
 
 export default function App() {
   const [logged, setLogged] = useState(false);
@@ -12,7 +13,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Home />
+      {/* <Home /> */}
+      <Routes />
     </NavigationContainer>
   );
 }

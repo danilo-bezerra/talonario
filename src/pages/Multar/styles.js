@@ -25,12 +25,14 @@ export const Button = styled.TouchableOpacity`
   background-color: #aaa;
   border: 1px solid #ddd;
   border-radius: 5px;
+  margin-bottom: 4px;
 `;
 
-export const Text = styled.Text``;
+export const Text = styled.Text`
+`;
 
 export const Advice = styled.Text`
   color: #ff5555;
   width: 90%;
   margin-top: -10px;
-`
+`;
