@@ -13,7 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import { api } from "../../services/api";
 import { ToastAndroid } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { auth} from "../../services/firebase";
+import { auth } from "../../services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login({ setLogged }) {
@@ -54,11 +54,8 @@ export default function Login({ setLogged }) {
         onChangeText={(newText) => setPassword(newText)}
         defaultValue={password}
       />
-      <CheckBoxContainer>
-        <CheckBox
-          onPress={() => setToggleCheckBox(!toggleCheckBox)}
-          toggleCheckBox={toggleCheckBox}
-        >
+      <CheckBoxContainer onPress={() => setToggleCheckBox(!toggleCheckBox)}>
+        <CheckBox toggleCheckBox={toggleCheckBox}>
           <Feather
             name={toggleCheckBox ? "eye-off" : "eye"}
             size={18}

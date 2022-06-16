@@ -1,11 +1,15 @@
 import React from "react";
 
-import Multar from "../pages/Multar";
-import Perfil from "../pages/Perfil";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Ionicons from "react-native-vector-icons/Ionicons";
+
+import Multar from "../pages/Multar";
+import Perfil from "../pages/Perfil";
 import HistoricoMultas from "../pages/HistoricoMultas";
+
+import TabRoutes from "./TabRoutes";
+
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -13,13 +17,14 @@ const Drawer = createDrawerNavigator();
 export default function Routes() {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Multar" component={Multar} />
-      <Drawer.Screen name="Perfil" component={Perfil} />
-      <Drawer.Screen name="HistoricoMultas" component={HistoricoMultas} options={
-        {
-          title: "Historico de Multas"
-        }
-      }/>
+      <Drawer.Screen name="Home" component={TabRoutes} />
+      <Drawer.Screen
+        name="Perfil"
+        component={Perfil}
+        options={{
+          title: "Perfil",
+        }}
+      />
     </Drawer.Navigator>
   );
 }

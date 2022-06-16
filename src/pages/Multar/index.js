@@ -1,33 +1,45 @@
 import { apiConsultaPlaca } from "../../services/api";
-import { Container, Button, Input, Text, Advice } from "./styles";
-import {useState} from 'react'
+import {
+  Container,
+  Button,
+  Input,
+  Text,
+  ButtonText,
+  Advice,
+  InputContainer,
+  CameraButton,
+} from "./styles";
+import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import CameraModal from "../../components/Camera";
 
 export default function Multar() {
-  const [veiculo,setVeiculo] = useState(null)
-  const [placa,setPlaca] = useState('')
-  const [erroInputPlaca,setErroInputPlaca] = useState(false)
+  const [veiculo, setVeiculo] = useState(null);
+  const [placa, setPlaca] = useState("");
+  const [erroInputPlaca, setErroInputPlaca] = useState(false);
+  const [isCameraActive, setIsCameraActive] = useState(false);
 
   function validatePlaca() {
     const regex = /[A-Za-z]{3}[0-9][0-9A-Za-z][0-9]{2}/;
     if (regex.test(placa)) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
-  async function handleClick() {;
+  async function handleClick() {
     if (validatePlaca()) {
       const response = await apiConsultaPlaca.get(
         `/${placa}.json?placa=${placa}`
       );
       setErroInputPlaca(false);
 
-        if (!response.data.pageProps.vehicleData) {
-          alert("Veiculo não existe")
-          return
-        }
-          setVeiculo(response.data.pageProps);
+      if (!response.data.pageProps.vehicleData) {
+        alert("Veiculo não existe");
+        return;
+      }
+      setVeiculo(response.data.pageProps);
     } else {
       setVeiculo(null);
       setErroInputPlaca(true);
@@ -35,20 +47,24 @@ export default function Multar() {
     }
   }
 
-  console.log(veiculo)
-
   return (
     <Container>
       <Text>Placa</Text>
-      <Input
-        placeholder="Placa"
-        onChangeText={(newText) => setPlaca(newText)}
-        defaultValue={placa}
-        erroInputPlaca={erroInputPlaca}
-      />
+      <InputContainer>
+        <CameraButton onPress={() => setIsCameraActive(true)}>
+          <Ionicons name="camera-outline" size={30} />
+        </CameraButton>
+        <Input
+          placeholder="Placa"
+          onChangeText={(newText) => setPlaca(newText)}
+          defaultValue={placa}
+          erroInputPlaca={erroInputPlaca}
+        />
+      </InputContainer>
+      {isCameraActive && <CameraModal setIsCameraActive={setIsCameraActive} />}
       {erroInputPlaca && <Advice>Placa Inválida</Advice>}
       <Button onPress={handleClick}>
-        <Text>Consultar</Text>
+        <ButtonText>Consultar</ButtonText>
       </Button>
       <Text>Modelo</Text>
       <Input placeholder="Modelo" defaultValue={veiculo?.vehicleData?.Modelo} />
@@ -70,7 +86,7 @@ export default function Multar() {
       <Text>Ano</Text>
       <Input placeholder="Ano" defaultValue={veiculo?.vehicleData?.AnoModelo} />
       <Button>
-        <Text>Proseguir</Text>
+        <ButtonText>Proseguir</ButtonText>
       </Button>
     </Container>
   );
