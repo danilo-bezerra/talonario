@@ -1,75 +1,58 @@
-import {
-  Container,
-  Input,
-  Text,
-  LoginButton,
-  Image,
-  CheckBoxContainer,
-  CheckBox,
-} from "./styles";
+import { Image, CheckBoxContainer, CheckBox } from "./styles";
 import userDefault from "../../assets/user.png";
-import { useState } from "react";
-import { Feather } from "@expo/vector-icons";
-import { api } from "../../services/api";
-import { ToastAndroid } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { auth} from "../../services/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState, useContext } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
-export default function Login({ setLogged }) {
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+import Page from "../../components/Page";
+import Text from "../../components/Text";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+
+import { UserContext } from "../../contexts/UserContext";
+import { ActivityIndicator } from "react-native";
+
+export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { signIn, isLoading } = useContext(UserContext);
+
   async function handleSubmit() {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        ToastAndroid.show("Login realizado com sucesso", ToastAndroid.SHORT);
-        setLogged(true);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        ToastAndroid.show("Usuario e/ou senhas inválidos", ToastAndroid.SHORT);
-        console.log("falha");
-      });
+    if (email && password) {
+      await signIn(email, password);
+    }
   }
 
   return (
-    <Container>
+    <Page>
       <Image source={userDefault} />
-      <Text>Email</Text>
       <Input
-        placeholder="email"
+        label="Email"
+        placeholder="exemplo@mail.com"
         onChangeText={(newText) => setEmail(newText)}
         defaultValue={email}
       />
-      <Text>Senha</Text>
       <Input
-        placeholder="senha"
-        secureTextEntry={!toggleCheckBox}
+        label="Senha"
+        placeholder="*********"
+        secureTextEntry={!showPassword}
         onChangeText={(newText) => setPassword(newText)}
         defaultValue={password}
       />
-      <CheckBoxContainer>
-        <CheckBox
-          onPress={() => setToggleCheckBox(!toggleCheckBox)}
-          toggleCheckBox={toggleCheckBox}
-        >
-          <Feather
-            name={toggleCheckBox ? "eye-off" : "eye"}
+      <CheckBoxContainer onPress={() => setShowPassword(!showPassword)}>
+        <CheckBox toggleCheckBox={showPassword}>
+          <Ionicons
+            name={showPassword ? "checkmark-outline" : ""}
             size={18}
-            color="#555"
+            color="#2f9"
           />
         </CheckBox>
-        <Text>{toggleCheckBox ? "Ocultar Senha" : "Mostrar Senha"}</Text>
+        <Text size="">{showPassword ? "Ocultar Senha" : "Mostrar Senha"}</Text>
       </CheckBoxContainer>
-      <LoginButton onPress={handleSubmit}>
-        <Text>Entrar</Text>
-      </LoginButton>
-    </Container>
+      <Button onPress={handleSubmit}>
+        {isLoading ? <ActivityIndicator size={20} color="#fff" /> : "Entrar"}
+      </Button>
+    </Page>
   );
 }

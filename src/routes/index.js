@@ -1,26 +1,45 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import Multar from "../pages/Multar";
 import Perfil from "../pages/Perfil";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import HistoricoMultas from "../pages/HistoricoMultas";
 
-const Tab = createBottomTabNavigator();
+import { UserContext } from "../contexts/UserContext";
+
+import HomeRoutes from "./HomeRoutes";
+import Login from "../pages/Login";
+import SignOut from "../pages/SignOut";
+import theme from "../assets/theme";
+
 const Drawer = createDrawerNavigator();
 
 export default function Routes() {
+  const { user } = useContext(UserContext);
+
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Multar" component={Multar} />
-      <Drawer.Screen name="Perfil" component={Perfil} />
-      <Drawer.Screen name="HistoricoMultas" component={HistoricoMultas} options={
-        {
-          title: "Historico de Multas"
-        }
-      }/>
-    </Drawer.Navigator>
+    <>
+      {user ? (
+        <Drawer.Navigator
+          screenOptions={{
+            drawerStyle: {
+              backgroundColor: theme.colors.bgPrimary,
+            },
+            headerStyle: {
+              backgroundColor: theme.colors.bgPrimary,
+            },
+            headerTintColor: theme.colors.textPrimary,
+            drawerActiveBackgroundColor: theme.colors.bgActive,
+            drawerActiveTintColor: theme.colors.textPrimary,
+            drawerInactiveTintColor: theme.colors.textPrimary,
+          }}
+        >
+          <Drawer.Screen name="Home" component={HomeRoutes} />
+          <Drawer.Screen name="Perfil" component={Perfil} />
+          <Drawer.Screen name="Sair" component={SignOut} />
+        </Drawer.Navigator>
+      ) : (
+        <Login />
+      )}
+    </>
   );
 }
 

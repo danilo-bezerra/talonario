@@ -5,16 +5,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "./src/pages/Home";
 import Routes from "./src/routes";
 
-export default function App() {
-  const [logged, setLogged] = useState(false);
-  if (!logged) {
-    return <Login setLogged={setLogged} />;
-  }
+import { UserContextProvider } from "./src/contexts/UserContext";
+import { StatusBar } from "react-native";
 
+export default function App() {
   return (
     <NavigationContainer>
-      {/* <Home /> */}
-      <Routes />
+      <UserContextProvider>
+        <Routes />
+        <StatusBar barStyle="light-content" />
+      </UserContextProvider>
     </NavigationContainer>
   );
 }
