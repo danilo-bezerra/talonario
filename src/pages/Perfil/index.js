@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Image } from "react-native";
 import {} from "./styles";
 
 import Page from "../../components/Page";
@@ -11,12 +12,11 @@ export default function Perfil() {
 
   const { displayName, email, photoUrl } = user.providerData[0];
 
-  console.log(user);
-
   return (
     <Page>
       <Text>{displayName}</Text>
       <Text>{email}</Text>
+      <Image source={{ uri: photoUrl }} />
       <Text>{photoUrl}</Text>
     </Page>
   );
